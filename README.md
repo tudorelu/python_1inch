@@ -7,7 +7,7 @@ https://docs.1inch.exchange/api/
 ## Installation
 
 ```sh
-git clone https://github.com/tudorelu/python_1inch
+pip install python_1inch
 ```
 
 ## Usage Example

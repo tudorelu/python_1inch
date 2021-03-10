@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="python_1inch", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Tudor Barbulescu",
     author_email="hello@tudorbarbulescu.com",
     description="A python wraper around the 1INCH DEX API.",
@@ -22,4 +22,6 @@ setuptools.setup(
     ],
     packages=setuptools.find_packages(),
     python_requires=">=3.6",
+    install_requires=['requests==2.25.1'],
+	tests_require=['pytest==6.2.2']
 )
