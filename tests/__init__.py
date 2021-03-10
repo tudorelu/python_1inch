@@ -1,0 +1,1 @@
+from tests.test_python_1inch import *
