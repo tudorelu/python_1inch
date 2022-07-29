@@ -54,8 +54,8 @@ class OneInchExchange:
 
 
     def health_check(self):
-        url = '{}/56/{}/healthcheck'.format(
-            self.base_url, self.chain_id)
+        url = '{}/{}/{}/healthcheck'.format(
+            self.base_url, self.version, self.chain_id)
         response = requests.get(url)
         result = json.loads(response.text)
         if not result.__contains__('status'):
