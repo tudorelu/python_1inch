@@ -8,13 +8,10 @@ class OneInchExchange:
 
     chains = dict(
         ethereum = '1',
-        binance = '56'
+        binance = '56',
+        polygon = '137'
     )
 
-    versions = dict(
-        # v2 = "v2.0",
-        v2_1 = "v2.1"
-    )
 
     endpoints = dict(
         swap = "swap",
@@ -31,9 +28,9 @@ class OneInchExchange:
     protocols = []
     protocols_images = []
 
-    def __init__(self, address, chain='ethereum'):
+    def __init__(self, address, version = 'v4.0', chain='ethereum'):
         self.address = address
-        self.version = 'v2.1'
+        self.version = version
         self.chain_id = self.chains[chain]
         self.chain = chain
         # self.get_tokens()
