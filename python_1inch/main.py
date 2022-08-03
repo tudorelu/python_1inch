@@ -107,7 +107,7 @@ class OneInchExchange:
 
     def do_swap(self, from_token_symbol:str, to_token_symbol:str, 
         amount:int, from_address:str, slippage:int):
-        url = '{}/{}/{}/quote'.format(
+        url = '{}/{}/{}/swap'.format(
             self.base_url, self.version, self.chain_id)
         url = url + "?fromTokenAddress={}&toTokenAddress={}&amount={}".format(
             self.tokens[from_token_symbol]['address'], 
