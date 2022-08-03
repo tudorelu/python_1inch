@@ -111,8 +111,9 @@ class OneInchExchange:
             self.base_url, self.version, self.chain_id)
         url = url + "?fromTokenAddress={}&toTokenAddress={}&amount={}".format(
             self.tokens[from_token_symbol]['address'],
-            self.tokens[to_token_symbol]['address'], 
-            amount)
+            self.tokens[to_token_symbol]['address'],
+            format(Decimal(10 ** self.tokens[from_token_symbol]['decimals'] \
+                           * amount).quantize(Decimal('1.')), 'n'))
         url = url + '&fromAddress={}&slippage={}'.format(
             self.address, slippage)
         result = self._get(url)
