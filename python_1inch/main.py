@@ -106,15 +106,15 @@ class OneInchExchange:
 
 
     def do_swap(self, from_token_symbol:str, to_token_symbol:str, 
-        amount:int, from_address:str, slippage:int):
+        amount:int, slippage:int):
         url = '{}/{}/{}/swap'.format(
             self.base_url, self.version, self.chain_id)
         url = url + "?fromTokenAddress={}&toTokenAddress={}&amount={}".format(
-            self.tokens[from_token_symbol]['address'], 
+            self.tokens[from_token_symbol]['address'],
             self.tokens[to_token_symbol]['address'], 
             amount)
         url = url + '&fromAddress={}&slippage={}'.format(
-            from_address, slippage)
+            self.address, slippage)
         result = self._get(url)
         return result
 
