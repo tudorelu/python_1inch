@@ -93,7 +93,7 @@ class OneInchExchange:
         return self.protocols_images
 
 
-    def get_quote(self, from_token_symbol:str, to_token_symbol:str, amount:int):
+    def get_quote(self, from_token_symbol:str, to_token_symbol:str, amount:float):
         url = '{}/{}/{}/quote'.format(
             self.base_url, self.version, self.chain_id)
         url = url + '?fromTokenAddress={}&toTokenAddress={}&amount={}'.format(
@@ -106,7 +106,7 @@ class OneInchExchange:
 
 
     def do_swap(self, from_token_symbol:str, to_token_symbol:str, 
-        amount:int, slippage:int):
+        amount:float, slippage:int):
         url = '{}/{}/{}/swap'.format(
             self.base_url, self.version, self.chain_id)
         url = url + "?fromTokenAddress={}&toTokenAddress={}&amount={}".format(
