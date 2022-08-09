@@ -1,6 +1,7 @@
 import json
 import requests
 from decimal import Decimal
+import aiohttp
 
 class OneInchExchange:
 
@@ -43,6 +44,17 @@ class OneInchExchange:
         try:
             response = requests.get(url, params=params, headers=headers)
             payload = json.loads(response.text)
+            data = payload
+        except requests.exceptions.ConnectionError as e:
+            print("ConnectionError when doing a GET request from {}".format(url))
+            data = None
+        return data
+
+    def _get_asynch(self, session, url, params=None, headers=None):
+        """ Implements a get request """
+        try:
+            response = await session.get(url, params=params, headers=headers)
+            payload = await response.json()
             data = payload
         except requests.exceptions.ConnectionError as e:
             print("ConnectionError when doing a GET request from {}".format(url))
@@ -104,6 +116,17 @@ class OneInchExchange:
         result = self._get(url)
         return result
 
+    def get_quote_asynch(self, session, from_token_symbol:str, to_token_symbol:str, amount:float):
+        url = '{}/{}/{}/quote'.format(
+            self.base_url, self.version, self.chain_id)
+        url = url + '?fromTokenAddress={}&toTokenAddress={}&amount={}'.format(
+            self.tokens[from_token_symbol]['address'],
+            self.tokens[to_token_symbol]['address'],
+            format(Decimal(10**self.tokens[from_token_symbol]['decimals'] \
+                * amount).quantize(Decimal('1.')), 'n'))
+        result = self._get_asynch(session, url)
+        return result
+
 
     def do_swap(self, from_token_symbol:str, to_token_symbol:str, 
         amount:float, slippage:int):
@@ -117,6 +140,20 @@ class OneInchExchange:
         url = url + '&fromAddress={}&slippage={}'.format(
             self.address, slippage)
         result = self._get(url)
+        return result
+
+    def do_swap_asynch(self, session, from_token_symbol:str, to_token_symbol:str,
+        amount:float, slippage:int):
+        url = '{}/{}/{}/swap'.format(
+            self.base_url, self.version, self.chain_id)
+        url = url + "?fromTokenAddress={}&toTokenAddress={}&amount={}".format(
+            self.tokens[from_token_symbol]['address'],
+            self.tokens[to_token_symbol]['address'],
+            format(Decimal(10 ** self.tokens[from_token_symbol]['decimals'] \
+                           * amount).quantize(Decimal('1.')), 'n'))
+        url = url + '&fromAddress={}&slippage={}'.format(
+            self.address, slippage)
+        result = self._get_asynch(session, url)
         return result
 
     def convert_amount_to_decimal(self, token_symbol, amount):
