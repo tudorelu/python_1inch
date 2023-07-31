@@ -4,7 +4,7 @@ from decimal import Decimal
 
 class OneInchExchange:
 
-    base_url = 'https://api.1inch.exchange'
+    base_url = 'https://api.1inch.io'
 
     chains = dict(
         ethereum = '1',
@@ -31,12 +31,12 @@ class OneInchExchange:
     protocols = []
     protocols_images = []
 
-    def __init__(self, address, chain='ethereum'):
+    def __init__(self, address, chain='ethereum', version="v5.2"):
         self.address = address
-        self.version = 'v2.1'
+        self.version = version
         self.chain_id = self.chains[chain]
         self.chain = chain
-        # self.get_tokens()
+        self.get_tokens()
         # self.get_protocols()
         # self.get_protocols_images()
 
@@ -62,8 +62,13 @@ class OneInchExchange:
             return result
         return result['status']
 
-
     def get_tokens(self):
+        if not self.tokens:
+            return self.tokens
+        else:
+            return self.fetch_tokens()
+    
+    def fetch_tokens(self):
         url = '{}/{}/{}/tokens'.format(
             self.base_url, self.version, self.chain_id)
         result = self._get(url)
@@ -74,7 +79,6 @@ class OneInchExchange:
             self.tokens_by_address[key] = token
             self.tokens[token['symbol']] = token
         return self.tokens
-
 
     def get_protocols(self):
         url = '{}/{}/{}/protocols'.format(
