@@ -8,7 +8,12 @@ class OneInchExchange:
 
     chains = dict(
         ethereum = '1',
-        binance = '56'
+        binance = '56',
+        fantom = "250",
+        avalanche = '43114',
+        polygon = '137',
+        arbitrum = '42161',
+        optimism = '10'
     )
 
     versions = dict(
